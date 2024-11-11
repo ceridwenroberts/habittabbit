@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", // Modern ECMAScript target
+    "lib": ["ES2023"], // Latest JS library features
+    "module": "ESNext", // ESNext module system
+    "strict": true, // Enable strict type-checking
+    "jsx": "react-jsx", // React JSX support
+    "esModuleInterop": true, // Interoperability with CommonJS
+    "skipLibCheck": true, // Skip checking libraries
+    "moduleResolution": "Node", // Node-style resolution
+    "resolveJsonModule": true, // Allow JSON imports
+    "noUnusedLocals": true, // Disallow unused locals
+    "noUnusedParameters": true, // Disallow unused parameters
+    "noFallthroughCasesInSwitch": true, // Prevent fall-through in switch
+    "noUncheckedSideEffectImports": true, // Disallow unchecked side-effect imports,
+    "noImplicitAny": true,         // Warns when a variable has an `any` type (which means no type is assigned)
+    "noImplicitThis": true,        // Warns when `this` is used in a non-typed way
+    "strictNullChecks": true,      // Makes `null` and `undefined` check strict (more accurate type checking)
+    "alwaysStrict": true           // Enforces strict mode parsing in every file
+  },
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
