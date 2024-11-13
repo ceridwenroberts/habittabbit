@@ -1,32 +1,32 @@
 import { FC, useEffect, useState } from "react";
 import { differenceInCalendarDays } from "date-fns";
 import { Container } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import Grid from "@mui/material/Grid2";
 import Card from "../Card/Card.tsx";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 // import AspectRatio from "@mui/joy/AspectRatio"
 import AddBox from "../AddBox/AddBox.tsx";
-import AddDialog from "../AddDialog/AddDialog.tsx"
-
-interface Habit {
-  key: string;
-  id: string;
-  habit: string;
-  isDone: boolean;
-}
+import AddDialog from "../AddDialog/AddDialog.tsx";
+import Habit from "../../types/HabitInterface.tsx";
+import { useCards } from "../../contexts/CardsContext.tsx";
 
 const HabitManager: FC = () => {
   const [habits, setHabits] = useState<Habit[]>([]);
+  const { totalCards, setTotalCards, doneCards, setDoneCards } = useCards();
 
   const storeHabits = (updatedHabits: Habit[]): void => {
     localStorage.setItem("habits", JSON.stringify(updatedHabits));
+  };
+
+  const storeDoneCards = (count: number): void => {
+    localStorage.setItem("doneCards", JSON.stringify(count));
   };
 
   //Get all
   useEffect(() => {
     try {
       const storedHabits = JSON.parse(
-        localStorage.getItem("habits") || "[]" 
+        localStorage.getItem("habits") || "[]"
       ) as Habit[];
       setHabits(storedHabits);
       // setTotalCards(storedHabits.length);
@@ -36,13 +36,17 @@ const HabitManager: FC = () => {
 
       if (storedLastVisitData) {
         try {
-          const storedLastVisit:string = JSON.parse(storedLastVisitData);
-          console.log(storedLastVisit);
+          const storedLastVisit: string = JSON.parse(storedLastVisitData);
+          console.log("Stored last visit: ", storedLastVisit);
 
-          const diff: number = differenceInCalendarDays(
+          const diff = differenceInCalendarDays(
             new Date(storedLastVisit),
-            new Date().toLocaleString()
+            new Date()
           );
+
+          console.log("Date diff: ", diff)
+        // console.log( new Date().toLocaleString())
+        // console.log(new Date(storedLastVisit))
 
           if (diff !== 0) {
             const resetHabits: Habit[] = storedHabits.map((habit: Habit) => ({
@@ -56,14 +60,15 @@ const HabitManager: FC = () => {
         } catch (error) {
           console.error("Error parsing lastVisit data:", error);
           localStorage.removeItem("lastVisit");
-        }     
+        }
       }
-      const currentDate:string = new Date().toLocaleString();
-      localStorage.setItem("lastVisit", JSON.stringify(currentDate))
+      const currentDate: string = new Date().toISOString();
+      localStorage.setItem("lastVisit", JSON.stringify(currentDate));
     } catch (error) {
       console.error("Error parsing habits from localStorage:", error);
       setHabits([]);
     }
+    
   }, []);
 
   //Add
@@ -75,7 +80,7 @@ const HabitManager: FC = () => {
       isDone: false,
     };
     const updatedHabits = [...habits, newHabit];
-    // setTotalCards(updatedHabits.length);
+    setTotalCards(totalCards + 1);
     setHabits(updatedHabits);
     storeHabits(updatedHabits);
   };
@@ -86,16 +91,19 @@ const HabitManager: FC = () => {
       const currentHabits = JSON.parse(
         localStorage.getItem("habits") || "''"
       ) as Habit[];
-      // const habitToDelete = currentHabits.filter((habit: Habit) => habit.id === id);
-      // if(habitToDelete && habitToDelete.isDone) {
-      //   setDoneCards(doneCards -1);
-      //   storeDoneCards( doneCards -1);
-      // }
+      const habitToDelete: Habit[] = currentHabits.filter(
+        (habit: Habit) => habit.id === id
+      );
+      if (habitToDelete && habitToDelete[0].isDone) {
+        setDoneCards(doneCards - 1);
+        storeDoneCards(doneCards - 1);
+      }
       const habitsOnDelete = currentHabits.filter(
         (habit: Habit) => habit.id !== id
       );
       // setTotalCards(habitsOnDelete.length);
       setHabits(habitsOnDelete);
+      setTotalCards(totalCards - 1);
       // storeHabits(habitsOnDelete);
       localStorage.setItem("habits", JSON.stringify(habitsOnDelete));
     } catch (error) {
@@ -120,46 +128,46 @@ const HabitManager: FC = () => {
 
   return (
     <Container
-      maxWidth="md" sx={{
-      display: "flex",
-      flexDirection: "column",
-      flexGrow: 1
-      
-    }}>
+      maxWidth="md"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1,
+      }}
+    >
       <AddDialog addHabit={addHabit} />
       <AddBox addHabit={addHabit} />
       <Box
-      sx={{
+        sx={{
           borderRadius: 1,
-          bgColor: "#0066CC"
-      }}>
+          bgColor: "#0066CC",
+        }}
+      >
         <Grid container spacing={2}>
-    
           {habits.map((habit) => (
-            <Grid key={habit.id} size={{ xs:12, sm: 6, md: 4}}
-            // sx={{
-            //   border: "1px solid black",
-            //     borderRadius: 1,
-            //     bgColor: "#0066CC"
-            // }}
-            >  
+            <Grid
+              key={habit.id}
+              size={{ xs: 12, sm: 6, md: 4 }}
+              // sx={{
+              //   border: "1px solid black",
+              //     borderRadius: 1,
+              //     bgColor: "#0066CC"
+              // }}
+            >
               <Card
-            key={habit.id}
-            id={habit.id}
-            text={habit.habit}
-            isDone={habit.isDone}
-            deleteHabit={deleteHabit}
-            toggleDone={toggleDone}
-          />
-         
+                key={habit.id}
+                id={habit.id}
+                text={habit.habit}
+                isDone={habit.isDone}
+                deleteHabit={deleteHabit}
+                toggleDone={toggleDone}
+              />
             </Grid>
           ))}
-          <Grid>
-            
-          </Grid>
+          <Grid></Grid>
         </Grid>
       </Box>
-      
+
       {/* {habits.length ? (
         habits.map((habit: Habit) => (
           <Card

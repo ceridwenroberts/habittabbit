@@ -1,11 +1,14 @@
+import { CardsProvider } from "./contexts/CardsContext.tsx"
+import Counter from "./components/Counter/Counter.tsx"
 import Header from "./components/Header/Header.tsx";
 import HabitManager from "./components/HabitManager/HabitManager.tsx";
 import Footer from "./components/Footer/Footer.tsx";
-import { Container, Paper } from "@mui/material";
+import { Container } from "@mui/material";
 
 function App() {
   return (
     <>
+    <CardsProvider>
       <Container
         maxWidth="md"
         component="main"
@@ -18,9 +21,11 @@ function App() {
         }}
       >
         <Header heading="Habit Tracker" />
+        <Counter />
         <HabitManager />
         <Footer footercontent="&copy; Ceridwen Roberts 2024" />
       </Container>
+      </CardsProvider>
     </>
   );
 }

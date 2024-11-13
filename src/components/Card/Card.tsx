@@ -1,4 +1,5 @@
-import { FC } from "react";
+// import { FC } from "react";
+import { useCards } from "../../contexts/CardsContext.tsx";
 import { IconButton, Paper } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -6,7 +7,6 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import ReplayCircleFilledIcon from "@mui/icons-material/ReplayCircleFilled";
 import AspectRatio from "@mui/joy/AspectRatio";
 
-//should this be an extension of habit interface? (in habit manager)
 interface CardProps {
   text: string;
   id: string;
@@ -15,15 +15,17 @@ interface CardProps {
   deleteHabit: (id: string) => void;
 }
 
-const Card: FC<CardProps> = ({ text, id, isDone, toggleDone, deleteHabit }) => {
+const Card = ({ text, id, isDone, toggleDone, deleteHabit }:CardProps) => {
+  const {doneCards, setDoneCards} = useCards();
+
   const handleCheck = () => {
     toggleDone(id);
-    //     if (!isDone) {
-    //         setDoneCards(doneCards + 1);
-    //         console.log("doneCardsOnClickDone", doneCards)
-    //       } else {
-    //         setDoneCards(doneCards - 1);
-    //       }
+        if (!isDone) {
+            setDoneCards(doneCards + 1);
+          } else {
+            setDoneCards(doneCards - 1);
+          }
+          console.log("doneCardsOnClickDone", doneCards)
   };
 
   const handleDelete = () => {
