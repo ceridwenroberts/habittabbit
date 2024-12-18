@@ -14,8 +14,6 @@ const Counter = () => {
         //   const doneHabits:Habit[] = storedHabits.filter(habit => habit.isDone === true)
         //   localStorage.setItem("doneCards", JSON.stringify(doneHabits.length))
         //   setDoneCards(doneHabits.length);
-        
-
     }, [])
 
     useEffect(()=> {
@@ -25,7 +23,7 @@ const Counter = () => {
     return (
         <>
         This is the Counter
-        Total: {totalCards}, Done: {doneCards}
+        {totalCards}/{doneCards}
         </>
     )
 }
