@@ -1,9 +1,8 @@
 import { Container, Typography, Box } from "@mui/material";
-type HeaderProps = {
-    heading: string
-}
 
-const Header = ({ heading }: HeaderProps) => {
+
+const Header = () => {
+  const title = "Habit Rabbit"
   return  (
     <>
     <Container>
@@ -14,7 +13,7 @@ const Header = ({ heading }: HeaderProps) => {
         sm: "4rem",
         md: "6rem"
       }
-    }} >{heading.toUpperCase()}</Typography>
+    }} >{title.toUpperCase()}</Typography>
     </Box>
     </Container>
   </>

@@ -20,7 +20,7 @@ function App() {
           minHeight: "100vh",
         }}
       >
-        <Header heading="Habit Tracker" />
+        <Header />
         <Counter />
         <HabitManager />
         <Footer footercontent="&copy; Ceridwen Roberts 2024" />
