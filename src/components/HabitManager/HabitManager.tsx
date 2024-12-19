@@ -4,7 +4,6 @@ import { Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import Card from "../Card/Card.tsx";
 import Box from "@mui/material/Box";
-// import AspectRatio from "@mui/joy/AspectRatio"
 import AddBox from "../AddBox/AddBox.tsx";
 import AddDialog from "../AddDialog/AddDialog.tsx";
 import Habit from "../../types/HabitInterface.tsx";
@@ -29,7 +28,6 @@ const HabitManager: FC = () => {
         localStorage.getItem("habits") || "[]"
       ) as Habit[];
       setHabits(storedHabits);
-      // setTotalCards(storedHabits.length);
 
       const storedLastVisitData: string | null =
         localStorage.getItem("lastVisit");
@@ -43,10 +41,6 @@ const HabitManager: FC = () => {
             new Date(storedLastVisit),
             new Date()
           );
-
-          console.log("Date diff: ", diff)
-        // console.log( new Date().toLocaleString())
-        // console.log(new Date(storedLastVisit))
 
           if (diff !== 0) {
             const resetHabits: Habit[] = storedHabits.map((habit: Habit) => ({
@@ -68,10 +62,8 @@ const HabitManager: FC = () => {
       console.error("Error parsing habits from localStorage:", error);
       setHabits([]);
     }
-    
   }, []);
 
-  //Add
   const addHabit = (habitId: string, newHabitData: string): void => {
     const newHabit: Habit = {
       key: habitId,
@@ -85,7 +77,6 @@ const HabitManager: FC = () => {
     storeHabits(updatedHabits);
   };
 
-  //Delete
   const deleteHabit = (id: string): void => {
     try {
       const currentHabits = JSON.parse(
@@ -101,17 +92,14 @@ const HabitManager: FC = () => {
       const habitsOnDelete = currentHabits.filter(
         (habit: Habit) => habit.id !== id
       );
-      // setTotalCards(habitsOnDelete.length);
       setHabits(habitsOnDelete);
       setTotalCards(totalCards - 1);
-      // storeHabits(habitsOnDelete);
       localStorage.setItem("habits", JSON.stringify(habitsOnDelete));
     } catch (error) {
       console.error("Error deleting habit:", error);
     }
   };
 
-  //buttonToggle
   const toggleDone = (id: string) => {
     const updatedHabits = habits.map((habit: Habit) =>
       habit.id === id ? { ...habit, isDone: !habit.isDone } : habit
@@ -119,12 +107,6 @@ const HabitManager: FC = () => {
     setHabits(updatedHabits);
     storeHabits(updatedHabits);
   };
-
-  // const habit = updatedHabits.find((habit) => habit.id === id);
-  // const newDoneCount = habit.isDone ? doneCards + 1 : doneCards - 1;
-  // setDoneCards(newDoneCount);
-  // storeDoneCards(newDoneCount);
-  // // localStorage.setItem("habits", JSON.stringify(checkHabits));
 
   return (
     <Container
@@ -145,15 +127,7 @@ const HabitManager: FC = () => {
       >
         <Grid container spacing={2}>
           {habits.map((habit) => (
-            <Grid
-              key={habit.id}
-              size={{ xs: 12, sm: 6, md: 4 }}
-              // sx={{
-              //   border: "1px solid black",
-              //     borderRadius: 1,
-              //     bgColor: "#0066CC"
-              // }}
-            >
+            <Grid key={habit.id} size={{ xs: 12, sm: 6, md: 4 }}>
               <Card
                 key={habit.id}
                 id={habit.id}
@@ -167,21 +141,6 @@ const HabitManager: FC = () => {
           <Grid></Grid>
         </Grid>
       </Box>
-
-      {/* {habits.length ? (
-        habits.map((habit: Habit) => (
-          <Card
-            key={habit.id}
-            id={habit.id}
-            text={habit.habit}
-            isDone={habit.isDone}
-            deleteHabit={deleteHabit}
-            toggleDone={toggleDone}
-          />
-        ))
-      ) : (
-        <p>Please add a carrot!</p>
-      )} */}
     </Container>
   );
 };

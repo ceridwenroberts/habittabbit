@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type FooterProps = {
   footercontent: string;
@@ -16,6 +16,17 @@ const Footer = ({ footercontent }: FooterProps) => {
         },
       }}
     >
+      <Typography
+        variant="h1"
+        align="center"
+        gutterBottom
+        sx={{
+          letterSpacing: "-8.94px",
+          lineHeight: "40px",
+        }}
+      >
+        <div>(\_/)</div>
+      </Typography>
       {footercontent}
     </Box>
   );

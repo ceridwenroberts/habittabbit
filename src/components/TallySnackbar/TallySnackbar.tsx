@@ -25,7 +25,8 @@ const TallySnackbar = ({
     <>
       <Snackbar
         open={snackOpen}
-        autoHideDuration={3000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        autoHideDuration={6000}
         onClose={onClose}
         action={
           <Button color="secondary" size="small" onClick={undoAction}>
@@ -33,6 +34,15 @@ const TallySnackbar = ({
           </Button>
         }
         message={`You've earned another \u{1F955}! Only ${tasksLeft} left until you are a happy \u{1F407}.`}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            fontSize: {
+              xs: "0.8rem",
+              sm: "1rem",
+              md: "1.5rem",
+            },
+          },
+        }}
       />
     </>
   );

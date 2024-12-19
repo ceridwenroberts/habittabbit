@@ -44,7 +44,7 @@ const Card = ({ text, id, isDone, toggleDone, deleteHabit }: CardProps) => {
   };
 
   const handleClose = (
-    event: React.SyntheticEvent | Event,
+    _: React.SyntheticEvent | Event,
     reason?: SnackbarCloseReason
   ): void => {
     if (reason === "clickaway") {
@@ -54,84 +54,85 @@ const Card = ({ text, id, isDone, toggleDone, deleteHabit }: CardProps) => {
   };
 
   return (
-    <Paper
-      elevation={6}
-      sx={{
-        borderRadius: 3,
-        overflow: "hidden",
-      }}
-    >
-      <AspectRatio>
-        {/* <Box border={1} p={1} bgcolor="#abe4a0" justifyContent="center" */}
-        <Grid
-          container
-          direction="column"
-          justifyContent="space-between"
-          sx={{
-            position: "relative",
-            opacity: isDone ? 0.5 : 1,
-            backgroundColor: isDone ? "#d8e4bc" : "",
-          }}
-        >
-          <Grid>
-            <IconButton
-              onClick={handleDelete}
+    <>
+      <Paper
+        elevation={6}
+        sx={{
+          borderRadius: 3,
+          overflow: "hidden",
+        }}
+      >
+        <AspectRatio>
+          <Grid
+            container
+            direction="column"
+            justifyContent="space-between"
+            sx={{
+              position: "relative",
+              opacity: isDone ? 0.5 : 1,
+              backgroundColor: isDone ? "#d8e4bc" : "",
+            }}
+          >
+            <Grid>
+              <IconButton
+                onClick={handleDelete}
+                sx={{
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                }}
+              >
+                <RemoveCircleOutlineIcon />
+              </IconButton>
+            </Grid>
+            <Grid
               sx={{
-                position: "absolute",
-                top: 8,
-                right: 8,
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "center",
+                //   outline: "auto",
+                alignItems: "center",
+                textAlign: "center",
+                paddingLeft: 4,
+                paddingRight: 4,
+                paddingTop: 4,
               }}
             >
-              <RemoveCircleOutlineIcon />
-            </IconButton>
+              {text}
+            </Grid>
+            <Grid
+              sx={{
+                paddingBottom: 1,
+              }}
+            >
+              <IconButton size="large" onClick={handleDone}>
+                {isDone ? (
+                  <ReplayCircleFilledIcon
+                    sx={{
+                      fontSize: 32,
+                      opacity: 1,
+                    }}
+                  />
+                ) : (
+                  <CheckCircleIcon
+                    sx={{
+                      fontSize: 32,
+                    }}
+                  />
+                )}
+              </IconButton>
+            </Grid>
           </Grid>
-          <Grid
-            sx={{
-              flexGrow: 1,
-              display: "flex",
-              justifyContent: "center",
-              //   outline: "auto",
-              alignItems: "center",
-              textAlign: "center",
-              paddingLeft: 4,
-              paddingRight: 4,
-              paddingTop: 4,
-            }}
-          >
-            {text}
-          </Grid>
-          <Grid
-            sx={{
-              paddingBottom: 1,
-            }}
-          >
-            <IconButton size="large" onClick={handleDone}>
-              {isDone ? (
-                <ReplayCircleFilledIcon
-                  sx={{
-                    fontSize: 32,
-                    opacity: 1,
-                  }}
-                />
-              ) : (
-                <CheckCircleIcon
-                  sx={{
-                    fontSize: 32,
-                  }}
-                />
-              )}
-            </IconButton>
-            <TallySnackbar
-              snackOpen={snackOpen}
-              autoHideDuration={3000}
-              undoAction={handleUndo}
-              onClose={handleClose}
-              message={`You've earned another \u{1F955}! Only X left until you are a happy \u{1F407}.`}
-            />
-          </Grid>
-        </Grid>
-      </AspectRatio>
-    </Paper>
+        </AspectRatio>
+      </Paper>
+      <TallySnackbar
+        snackOpen={snackOpen}
+        autoHideDuration={3000}
+        undoAction={handleUndo}
+        onClose={handleClose}
+        message={`You've earned another \u{1F955}! Only X left until you are a happy \u{1F407}.`}
+      />
+    </>
   );
 };
 export default Card;

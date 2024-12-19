@@ -63,29 +63,15 @@ const AddDialog: React.FC<AddBoxProps> = ({ addHabit }) => {
         PaperProps={{
           component: "form",
           onSubmit: submitForm,
-          //   onSubmit:
-          //   (event: React.FormEvent<HTMLFormElement>) => {
-          //     event.preventDefault();
-          //     const input = new FormData(event.currentTarget).toString;
-          //     console.log("input", input);
-          //     setNewHabitData(input);
-          //     //     const formJson = Object.fromEntries((formData as any).entries()
-          //     // );
-
-          //     handleClose();
-          //   },
         }}
       >
-        <DialogTitle>Add a habit!</DialogTitle>
+        <DialogTitle>Add a &#129365; !</DialogTitle>
         <DialogContent>
           <DialogContentText></DialogContentText>
           <TextField
             autoFocus
             required
             margin="dense"
-            // id="name"
-            // name="email"
-            // label="Email Address"
             value={newHabitData}
             onChange={handleInputChange}
             fullWidth
